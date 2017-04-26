@@ -1,0 +1,39 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet', href='https://bootswatch.com/4-alpha/lux/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/style.css')
+	body
+		.container
+			.header.clearfix
+				nav
+					ul.nav.nav-pills.float-right
+						li.nav-item
+							a.nav-link(href='/')
+								| Dashboard 
+								span.sr-only (current)
+						if !user
+							li.nav-item
+								a.nav-link(href='/users/login') Login
+							li.nav-item
+								a.nav-link(href='/users/register') Register
+						if user
+							li.nav-item
+								a.nav-link(href='/users/logout') Logout
+				h3.text-muted Vote App
+			.row
+				.col-lg-12
+					if success_msg.length > 0
+						.alert.alert-success= success_msg
+
+					if error_msg.length > 0
+						.alert.alert-danger= error_msg
+
+					if error.length > 0
+						.alert.alert-danger= error
+					block content
+			footer.footer
+				p &copy; Johnathan Brown 2017
+
+		// script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
