@@ -10,17 +10,20 @@ html
 				nav
 					ul.nav.nav-pills.float-right
 						li.nav-item
-							a.nav-link(href='/')
+							a.nav-link.btn.btn-secondary(href='/')
 								| Dashboard 
 								span.sr-only (current)
 						if !user
 							li.nav-item
-								a.nav-link(href='/users/login') Login
+								a.nav-link.btn.btn-secondary(href='/users/login') Login
 							li.nav-item
-								a.nav-link(href='/users/register') Register
+								a.nav-link.btn.btn-secondary(href='/users/register') Register
 						if user
 							li.nav-item
-								a.nav-link(href='/users/logout') Logout
+								a.nav-link.btn.btn-secondary(href='#' data-toggle='modal' data-target='#pollModal') New Poll
+						if user
+							li.nav-item
+								a.nav-link.btn.btn-secondary(href='/users/logout') Logout
 				h3.text-muted Vote App
 			.row
 				.col-lg-12
@@ -36,4 +39,19 @@ html
 			footer.footer
 				p &copy; Johnathan Brown 2017
 
-		// script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
+		// Poll Modal
+		.modal.fade#pollModal(tabindex='-1' role='dialog' aria-labelledby='modalLabel' aria-hidden='true')
+			.modal-dialog(role='document')
+				.modal-content
+					.modal-header
+						h5.modal-title#modalLabel Create new poll
+						button.close(type='button' data-dismiss='modal' aria-label='Close')
+							span(aria-hidden='true') &times;
+					.modal-body
+					.modal-footer
+						button.btn.btn-secondary(data-dismiss='modal') Close
+						button.btn.btn-primary Create Poll
+
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
