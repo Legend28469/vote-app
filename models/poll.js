@@ -18,5 +18,5 @@ const pollSchema = mongoose.Schema({
 const Poll = module.exports = mongoose.model('Poll', pollSchema);
 
 module.exports.createPoll = (poll, owner, callback) => {
-
+  
 }

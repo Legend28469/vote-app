@@ -42,16 +42,27 @@ html
 		// Poll Modal
 		.modal.fade#pollModal(tabindex='-1' role='dialog' aria-labelledby='modalLabel' aria-hidden='true')
 			.modal-dialog(role='document')
-				.modal-content
-					.modal-header
-						h5.modal-title#modalLabel Create new poll
-						button.close(type='button' data-dismiss='modal' aria-label='Close')
-							span(aria-hidden='true') &times;
-					.modal-body
-					.modal-footer
-						button.btn.btn-secondary(data-dismiss='modal') Close
-						button.btn.btn-primary Create Poll
+				form(method='post' action='/')
+					.modal-content
+						.modal-header
+							h5.modal-title#modalLabel Create new poll
+							button.close(type='button' data-dismiss='modal' aria-label='Close')
+								span(aria-hidden='true') &times;
+						.modal-body
+							.form-group
+								label Question
+								input.form-control(type='text' name='question' placeholder='What\'s the best programming language?')
+
+								label Answers
+								input.form-control(type='text' name='answer' placeholder='Javascript')
+								input.form-control(type='text' name='answer2' placeholder='Ruby')
+
+							.btn.btn-secondary.mx-auto#add Add new option
+						.modal-footer
+							button.btn.btn-secondary(data-dismiss='modal') Close
+							button.btn.btn-primary Create Poll
 
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
 		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
+		script(src='/js/script.js')
