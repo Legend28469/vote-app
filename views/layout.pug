@@ -1,3 +1,4 @@
+- var wrap = 0;
 doctype html
 html
 	head
@@ -36,13 +37,28 @@ html
 					if error.length > 0
 						.alert.alert-danger= error
 					block content
-			footer.footer
+
+					if polls
+						#accordion(role='tablist' aria-multiselectable='true')
+							each poll, index in polls
+								form(method='post', action='/vote')
+									.card
+										.card-header(role='tab' id=`heading${index}`)
+											h5.mb-0
+												a.collapsed(data-toggle='collapse' data-parent=`#accordion${index}` href=`#collapse${index}` aria-expanded='false' aria-controls=`collapse${index}`)= poll.question
+									.collapse(role='tabpanel' aria-labelledby=`heading${index}` id=`collapse${index}`)
+										.card-block
+											.btn-group(data-toggle='buttons')
+												each answer in poll.answers
+													label.btn.btn-secondary(for=`answer${index}`) #{answer}
+														input(type='radio' name=`answer${index}` value=`${answer}`)
+			footer.footer.text-center
 				p &copy; Johnathan Brown 2017
 
 		// Poll Modal
 		.modal.fade#pollModal(tabindex='-1' role='dialog' aria-labelledby='modalLabel' aria-hidden='true')
 			.modal-dialog(role='document')
-				form(method='post' action='/')
+				form(method='post' action='/poll')
 					.modal-content
 						.modal-header
 							h5.modal-title#modalLabel Create new poll
@@ -51,16 +67,16 @@ html
 						.modal-body
 							.form-group
 								label Question
-								input.form-control(type='text' name='question' placeholder='What\'s the best programming language?')
+								input.form-control.original(type='text' name='question' placeholder='What\'s the best programming language?')
 
 								label Answers
-								input.form-control(type='text' name='answer' placeholder='Javascript')
-								input.form-control(type='text' name='answer2' placeholder='Ruby')
+								input.form-control.original(type='text' name='answer' placeholder='Javascript')
+								input.form-control.original(type='text' name='answer2' placeholder='Ruby')
 
 							.btn.btn-secondary.mx-auto#add Add new option
 						.modal-footer
 							button.btn.btn-secondary(data-dismiss='modal') Close
-							button.btn.btn-primary Create Poll
+							button.btn.btn-primary(type='submit') Create Poll
 
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')

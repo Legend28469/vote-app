@@ -1,7 +1,7 @@
 extends layout
 
 block content
-	h2.page-header Register
+	h2.page-header.text-center Register
 
 	if errors
 		each error in errors
@@ -29,4 +29,5 @@ block content
 			label Confirm Password
 			input.form-control(type='password', placeholder='Password', name='password2')
 
-		button.btn.btn-default(type='submit') Submit
+		div.text-center
+			button.btn.btn-default(type='submit') Submit

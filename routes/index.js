@@ -1,19 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const Poll = require('../models/poll');
 
 // Get Index page
-router.get('/', ensureAuthenticated ,(req, res) => {
-  res.render('index');
+router.get('/', (req, res) => {
+  Poll.find({}, (err, polls) => {
+    if (err) res.send(err);
+    res.render('index', {polls: polls});
+  });
 });
-
-function ensureAuthenticated (req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  else {
-    req.flash('error_msg', 'You are not logged in');
-    res.redirect('/users/login');
-  }
-}
 
 module.exports = router;

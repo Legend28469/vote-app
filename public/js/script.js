@@ -7,5 +7,6 @@ $('#add').click(() => {
 
 $('#pollModal').on('hidden.bs.modal', (e) => {
   $('.extra').remove();
+  $('original').text('');
   iteration = 3;
 });

@@ -2,21 +2,16 @@ const mongoose = require('mongoose');
 
 const pollSchema = mongoose.Schema({
   question: {
-    type: String
+    type: String,
+    index: true
   },
   answers: {
     type: Array
-  },
-  results: {
-    type: Array
-  },
-  owner: {
-    type: String
   }
 });
 
 const Poll = module.exports = mongoose.model('Poll', pollSchema);
 
-module.exports.createPoll = (poll, owner, callback) => {
-  
+module.exports.createPoll = (newPoll, callback) => {
+  newPoll.save(callback);
 }

@@ -1,7 +1,7 @@
 extends layout
 
 block content
-	h2.page-header Account Login
+	h2.page-header.text-center Account Login
 
 	if errors
 		each error in errors
@@ -17,4 +17,4 @@ block content
 			label Password
 			input.form-control(type='password' name='password' placeholder='Password')
 
-		button(type='submit').btn.btn-default Submit
+		button.btn.btn-default(type='submit') Submit

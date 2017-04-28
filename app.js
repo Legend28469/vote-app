@@ -13,6 +13,7 @@ const dotenv = require('dotenv');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const poll = require('./routes/poll');
 
 // Init dotenv
 dotenv.config();
@@ -80,6 +81,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', index);
 app.use('/users', users);
+app.use('/', poll);
 
 // Set port
 app.set('port', (process.env.PORT || 3000));
