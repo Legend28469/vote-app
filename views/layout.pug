@@ -47,8 +47,8 @@ html
 											h5.mb-0
 												a.collapsed(data-toggle='collapse' data-parent=`#accordion${index}` href=`#collapse${index}` aria-expanded='false' aria-controls=`collapse${index}`)= poll.question
 									.collapse(role='tabpanel' aria-labelledby=`heading${index}` id=`collapse${index}`)
-										.card-block
-											.btn-group(data-toggle='buttons')
+										.card-block.text-center
+											.btn-group.flex-wrap(data-toggle='buttons')
 												each answer in poll.answers
 													label.btn.btn-secondary(for=`answer${index}`) #{answer}
 														input(type='radio' name=`answer${index}` value=`${answer}`)
