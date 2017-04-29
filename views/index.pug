@@ -1,9 +1,24 @@
 extends layout
 
 block content
-	h2.page-header.text-center Dashboard
+	h2.page-header.text-center Polls
 
 	if errors
 		each error in errors
 			.alert.alert-danger
 				span= error.msg
+
+	if polls
+		#accordion(role='tablist' aria-multiselectable='true')
+			each poll, index in polls
+				form(method='post', action='/vote')
+					.card
+						.card-header(role='tab' id=`heading${index}`)
+							h5.mb-0
+								a.collapsed(data-toggle='collapse' data-parent=`#accordion${index}` href=`#collapse${index}` aria-expanded='false' aria-controls=`collapse${index}`)= poll.question
+					.collapse(role='tabpanel' aria-labelledby=`heading${index}` id=`collapse${index}`)
+						.card-block.text-center
+							.btn-group.flex-wrap(data-toggle='buttons')
+								each answer in poll.answers
+									label.btn.btn-secondary(for=`answer${index}`) #{answer}
+										input(type='radio' name=`answer${index}` value=`${answer}`)

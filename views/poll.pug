@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	h2.page-header.text-center Poll
+
+	if errors
+		each error in errors
+			.alert.alert-danger
+				span= error.msg
+
+	if poll
+		p= poll
+		if owner
+			.text-center
+				form(action='/poll/deletePoll' method='post' id='deletePoll')
+					input(type='hidden' value=`${poll._id}` name='id')
+					button.btn.btn-danger(type='submit') Delete this poll

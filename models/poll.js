@@ -7,6 +7,9 @@ const pollSchema = mongoose.Schema({
   },
   answers: {
     type: Array
+  },
+  owner: {
+    type: String
   }
 });
 

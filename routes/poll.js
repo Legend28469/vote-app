@@ -3,9 +3,24 @@ const router = express.Router();
 
 const Poll = require('../models/poll');
 
+router.get('/poll/:url(*)', (req, res) => {
+  const url = req.params.url;
+  Poll.findOne({_id: url}, (err, poll) => {
+    // if (err) res.send(err);
+    if (poll) {
+      res.render('poll', {poll: poll, owner: false});
+    }
+    else {
+      req.flash('error_msg', 'That poll ID is not valid');
+      res.redirect('/');
+    }
+  });
+});
+
 router.post('/poll', ensureAuthenticated, (req, res) => {
   const question = req.body.question;
   const answers = [];
+  const owner = req.user.username;
 
   for (let answer in req.body) {
     if (req.body[answer] != '') {
@@ -29,7 +44,8 @@ router.post('/poll', ensureAuthenticated, (req, res) => {
 
     const newPoll = new Poll({
       question: question,
-      answers: answers
+      answers: answers,
+      owner: owner
     });
 
     Poll.createPoll(newPoll, (err) => {

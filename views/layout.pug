@@ -12,7 +12,7 @@ html
 					ul.nav.nav-pills.float-right
 						li.nav-item
 							a.nav-link.btn.btn-secondary(href='/')
-								| Dashboard 
+								| Polls
 								span.sr-only (current)
 						if !user
 							li.nav-item
@@ -21,8 +21,9 @@ html
 								a.nav-link.btn.btn-secondary(href='/users/register') Register
 						if user
 							li.nav-item
+								a.nav-link.btn.btn-secondary(href='/dashboard') Dashboard
+							li.nav-item
 								a.nav-link.btn.btn-secondary(href='#' data-toggle='modal' data-target='#pollModal') New Poll
-						if user
 							li.nav-item
 								a.nav-link.btn.btn-secondary(href='/users/logout') Logout
 				h3.text-muted Vote App
@@ -38,20 +39,6 @@ html
 						.alert.alert-danger= error
 					block content
 
-					if polls
-						#accordion(role='tablist' aria-multiselectable='true')
-							each poll, index in polls
-								form(method='post', action='/vote')
-									.card
-										.card-header(role='tab' id=`heading${index}`)
-											h5.mb-0
-												a.collapsed(data-toggle='collapse' data-parent=`#accordion${index}` href=`#collapse${index}` aria-expanded='false' aria-controls=`collapse${index}`)= poll.question
-									.collapse(role='tabpanel' aria-labelledby=`heading${index}` id=`collapse${index}`)
-										.card-block.text-center
-											.btn-group.flex-wrap(data-toggle='buttons')
-												each answer in poll.answers
-													label.btn.btn-secondary(for=`answer${index}`) #{answer}
-														input(type='radio' name=`answer${index}` value=`${answer}`)
 			footer.footer.text-center
 				p &copy; Johnathan Brown 2017
 
