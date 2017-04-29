@@ -6,9 +6,11 @@ const Poll = require('../models/poll');
 router.post('/deletePoll', ensureAuthenticated, (req, res) => {
   const id = req.body.id;
 
-  Poll.findOneAndRemove({_id: id}, (err, poll) => {
+  Poll.findOne({_id: id}, (err, poll) => {
     if (err) throw err;
-
+    if (poll.owner === req.user.username) {
+      poll.remove();
+    }
     res.redirect('/dashboard');
     /*Poll.find({owner: req.user.username}, (err, polls) => {
       if (err) res.send(err);

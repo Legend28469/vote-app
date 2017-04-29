@@ -8,7 +8,17 @@ router.get('/poll/:url(*)', (req, res) => {
   Poll.findOne({_id: url}, (err, poll) => {
     // if (err) res.send(err);
     if (poll) {
-      res.render('poll', {poll: poll, owner: false});
+      if (req.user) {
+        if (poll.owner === req.user.username) {
+          res.render('poll', {poll: poll, owner: true});
+        }
+        else {
+          res.render('poll', {poll: poll, owner: false});
+        }
+      }
+      else {
+        res.render('poll', {poll: poll, owner: false});
+      }
     }
     else {
       req.flash('error_msg', 'That poll ID is not valid');
