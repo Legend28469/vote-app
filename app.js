@@ -16,6 +16,7 @@ const users = require('./routes/users');
 const poll = require('./routes/poll');
 const dashboard = require('./routes/dashboard');
 const deletePoll = require('./routes/deletePoll');
+const vote = require('./routes/vote');
 
 // Init dotenv
 dotenv.config();
@@ -86,6 +87,7 @@ app.use('/users', users);
 app.use('/', poll);
 app.use('/', dashboard);
 app.use('/poll', deletePoll);
+app.use('/', vote);
 
 // Set port
 app.set('port', (process.env.PORT || 3000));

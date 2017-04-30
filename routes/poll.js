@@ -34,7 +34,7 @@ router.post('/poll', ensureAuthenticated, (req, res) => {
 
   for (let answer in req.body) {
     if (req.body[answer] != '') {
-      answers.push(req.body[answer]);
+      answers.push({answer: req.body[answer], votes: 0});
     }
   }
 
@@ -44,17 +44,22 @@ router.post('/poll', ensureAuthenticated, (req, res) => {
   req.checkBody('answer2', 'At least 2 answers are required').notEmpty();
 
   const errors = req.validationErrors();
+  const formatted = [ ...new Set(answers) ];
 
   if (errors) {
     res.render('index', { errors: errors });
   }
+  else if (formatted.length < 3) {
+    req.flash('error_msg', 'Can\'t have two of the same answers');
+    res.redirect('/');
+  }
   else {
     // Remove first element from array as that's the question
-    answers.shift();
+    formatted.shift();
 
     const newPoll = new Poll({
       question: question,
-      answers: answers,
+      answers: formatted,
       owner: owner
     });
 
