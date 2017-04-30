@@ -5,9 +5,10 @@ const pollSchema = mongoose.Schema({
     type: String,
     index: true
   },
-  answers: {
-    type: Array
-  },
+  answers: [{
+    answer: String,
+    votes: Number
+  }],
   owner: {
     type: String
   }
@@ -17,4 +18,8 @@ const Poll = module.exports = mongoose.model('Poll', pollSchema);
 
 module.exports.createPoll = (newPoll, callback) => {
   newPoll.save(callback);
+}
+
+module.exports.updatePoll = (Poll, callback) => {
+  Poll.update(callback);
 }

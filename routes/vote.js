@@ -17,9 +17,13 @@ router.post('/vote', (req, res) => {
   // Use a username if logged in otherwise use an ip to prevent voting twice on the same poll
   const username = name !== null ? name : ip;
 
-  Poll.find({id: id}, (err, poll) => {
+  Poll.find({ _id: id }, (err, poll) => {
     if (err) res.send(err);
-    console.log(poll);
+    for (var i = 0; i < poll[0].answers.length; i++) {
+      if (choice === poll[0].answers[i].answer) {
+        console.log('Match');
+      }
+    }
     res.redirect('/');
   });
 });

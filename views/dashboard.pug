@@ -11,13 +11,13 @@ block content
 	if polls
 		each poll in polls
 			.card
-				.card-block
+				.card-block.text-center
 					a(href=`/poll/${poll._id}`)
-						h3.text-center.page-header= poll.question
+						h3.page-header= poll.question
 					.btn-group.flex-wrap(data-toggle='buttons')
 						each answer in poll.answers
-							label.btn.btn-secondary(for=`answer${index}`) #{answer}
-								input(type='radio' name=`answer${index}` value=`${answer}`)
+							label.btn.btn-secondary(for=`answer${index}`) #{answer.answer}
+								input(type='radio' name=`answer${index}` value=`${answer.answer}`)
 					.text-center
 						form(action='/poll/deletePoll' method='post' id='deletePoll')
 							input(type='hidden' value=`${poll._id}` name='id')

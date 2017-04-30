@@ -21,7 +21,7 @@ block content
 							.btn-group.flex-wrap(data-toggle='buttons')
 								each answer in poll.answers
 									label.btn.btn-secondary(for=`answer${index}`) #{answer.answer}
-										input(type='radio' name=`answer${index}` value=`${answer}`)
+										input(type='radio' name=`answer${index}` value=`${answer.answer}`)
 							div.pollSubmitBtn
 								input(type='hidden' value=`${poll._id}` name='id')
 								button.btn.btn-primary(type='submit') Submit

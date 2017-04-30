@@ -55,6 +55,7 @@ router.post('/poll', ensureAuthenticated, (req, res) => {
   }
   else {
     // Remove first element from array as that's the question
+    console.log(formatted[0].answer);
     formatted.shift();
 
     const newPoll = new Poll({
