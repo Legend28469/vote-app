@@ -7,7 +7,8 @@ const pollSchema = mongoose.Schema({
   },
   answers: [{
     answer: String,
-    votes: Number
+    votes: Number,
+    voted: String
   }],
   owner: {
     type: String

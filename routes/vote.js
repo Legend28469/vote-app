@@ -17,11 +17,29 @@ router.post('/vote', (req, res) => {
   // Use a username if logged in otherwise use an ip to prevent voting twice on the same poll
   const username = name !== null ? name : ip;
 
+  /*
+    Really needs to be cleaned up
+    First find the id of the answer (I'm sure there's an easier way)
+    Then apply that id to the update call
+    In the update call. We first pass the Poll ID and then the answer ID which was found in changeID
+    Then use The increment function (built-in) to increment votes by one
+    We access votes by using $ and dot notation for the below model setup
+
+    answers: [{
+      answer: String,
+      votes: Number
+    }]
+  */
   Poll.find({ _id: id }, (err, poll) => {
     if (err) res.send(err);
     for (var i = 0; i < poll[0].answers.length; i++) {
       if (choice === poll[0].answers[i].answer) {
-        console.log('Match');
+        const changeID = poll[0].answers[i]._id;
+        Poll.update({ _id: id, 'answers._id': changeID },
+          {'$inc': {'answers.$.votes': '1' }}, (err, log) => {
+            console.log(log)
+          }
+        );
       }
     }
     res.redirect('/');
