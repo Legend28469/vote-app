@@ -30,19 +30,37 @@ router.post('/vote', (req, res) => {
       votes: Number
     }]
   */
+
   Poll.find({ _id: id }, (err, poll) => {
     if (err) res.send(err);
-    for (var i = 0; i < poll[0].answers.length; i++) {
+
+    for (var i in poll[0].answers) {
       if (choice === poll[0].answers[i].answer) {
         const changeID = poll[0].answers[i]._id;
-        Poll.update({ _id: id, 'answers._id': changeID },
-          {'$inc': {'answers.$.votes': '1' }}, (err, log) => {
-            console.log(log)
+
+        // Ensure no one can vote twice (checks username and IP address)
+        Poll.find({ 'answers.0.voted' : { $in : [username] }}, (err, user) => {
+          if (user.length === 0) {
+            Poll.update({ _id: id, 'answers._id': changeID },
+              {'$inc': {'answers.$.votes': 1 }}, (err, logInc) => {
+                if (err) throw err;
+              }
+            );
+
+            // Push the username or IP address to prevent voting more than once
+            Poll.update({ _id: id, 'answers._id': changeID },
+              {'$push': {'answers.$.voted': username }}, (err, logPush) => {
+                if (err) throw err;
+              }
+            );
+            res.redirect('/');
+          } else {
+            req.flash('error_msg', 'You\'ve already voted on this poll');
+            res.redirect('/');
           }
-        );
+        });
       }
     }
-    res.redirect('/');
   });
 });
 
