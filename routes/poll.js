@@ -8,16 +8,25 @@ router.get('/poll/:url(*)', (req, res) => {
   Poll.findOne({_id: url}, (err, poll) => {
     // if (err) res.send(err);
     if (poll) {
+      const votes = [];
+      for (var i in poll.answers) {
+        // For some reason phantom undefineds were being added to the array
+        if (poll.answers[i].votes !== undefined) {
+          votes.push(poll.answers[i].votes);
+        }
+      }
+      console.log(votes);
+
       if (req.user) {
         if (poll.owner === req.user.username) {
-          res.render('poll', {poll: poll, owner: true});
+          res.render('poll', { poll: poll, owner: true, votes: votes });
         }
         else {
-          res.render('poll', {poll: poll, owner: false});
+          res.render('poll', { poll: poll, owner: false, votes: votes });
         }
       }
       else {
-        res.render('poll', {poll: poll, owner: false});
+        res.render('poll', { poll: poll, owner: false, votes: votes });
       }
     }
     else {
