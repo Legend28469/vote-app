@@ -16,7 +16,7 @@ block content
 			if owner
 				form(action='/poll/deletePoll' method='post' id='deletePoll')
 					input(type='hidden' value=`${poll._id}` name='id')
-					button.btn.btn-danger(type='submit') Delete this poll
+					button.delete.btn.btn-danger(type='submit') Delete this poll
 
 	// This is how you pass variables to client side Javascript
 	script.
