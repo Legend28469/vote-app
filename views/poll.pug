@@ -12,7 +12,7 @@ block content
 		p= poll
 		p= votes
 		.text-center
-			canvas#chart(width='400' height='400')
+			canvas#chart
 			if owner
 				form(action='/poll/deletePoll' method='post' id='deletePoll')
 					input(type='hidden' value=`${poll._id}` name='id')

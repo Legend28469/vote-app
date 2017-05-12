@@ -24,6 +24,25 @@ block content
 										input(type='radio' name=`answer${index}` value=`${answer.answer}`)
 							div.pollSubmitBtn
 								input(type='hidden' value=`${poll._id}` name='id')
-								button.btn.btn-primary(type='submit') Submit
+								button.btn.btn-primary.pollSubmitBtn(type='submit') Submit
 							div
-								a.btn.btn-primary(href=`/poll/${poll._id}`) Visit Poll Page
+								a.btn.btn-primary.pollSubmitBtn#new(href='#' data-toggle='modal' data-target='#newModal') Add new option
+							div
+								a.btn.btn-primary.pollSubmitBtn(href=`/poll/${poll._id}`) Visit Poll Page
+
+					// New Answer Modal
+					.modal.fade#newModal(tabindex='-1' role='dialog' aria-labelledby='modalLabel' aria-hidden='true')
+						.modal-dialog(role='document')
+							.modal-content
+								.modal-header
+									h5.modal-title#modalLabel Add new option
+									button.close(type='button' data-dismiss='modal' aria-label='Close')
+										span(aria-hidden='true') &times;
+								.modal-body
+									.form-group
+										label New answer
+										input.form-control.original(type='text' name='newAnswer' placeholder='C++')
+
+								.modal-footer
+									button.btn.btn-secondary(data-dismiss='modal') Close
+									button.btn.btn-primary(type='submit') Add answer

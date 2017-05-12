@@ -20,8 +20,6 @@ $(document).ready(function() {
     colors.push(dynamicColors());
   }
 
-  console.log(colors);
-
   var ctx = document.getElementById("chart");
   var myChart = new Chart(ctx, {
       type: 'doughnut',

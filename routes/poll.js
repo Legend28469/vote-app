@@ -15,7 +15,7 @@ router.get('/poll/:url(*)', (req, res) => {
           votes.push(poll.answers[i].votes);
         }
       }
-      console.log(votes);
+      //console.log(votes);
 
       if (req.user) {
         if (poll.owner === req.user.username) {

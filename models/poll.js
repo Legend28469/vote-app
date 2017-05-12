@@ -7,12 +7,13 @@ const pollSchema = mongoose.Schema({
   },
   answers: [{
     answer: String,
-    votes: Number,
-    voted: [String]
+    votes: Number
   }],
   owner: {
     type: String
-  }
+  },
+  voted:
+    []
 });
 
 const Poll = module.exports = mongoose.model('Poll', pollSchema);

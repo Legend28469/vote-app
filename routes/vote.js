@@ -43,18 +43,23 @@ router.post('/vote', (req, res) => {
         if (choice === poll[0].answers[i].answer) {
           const changeID = poll[0].answers[i]._id;
 
-          Poll.update({ _id: id, 'answers._id': changeID },
-            {'$inc': {'answers.$.votes': 1 }}, (err, logInc) => {
-              if (err) throw err;
-            }
-          );
+          if (poll[0].voted.includes(username)) {
+            req.flash('error_msg', 'You have already voted on this');
+          } else {
+            Poll.update({ _id: id, 'answers._id': changeID },
+              {'$inc': {'answers.$.votes': 1 }}, (err, logInc) => {
+                if (err) throw err;
+              }
+            );
 
-          // Push the username or IP address to prevent voting more than once
-          Poll.update({ _id: id, 'answers._id': changeID },
-            {'$push': {'answers.$.voted': username }}, (err, logPush) => {
-              if (err) throw err;
-            }
-          );
+            // Push the username or IP address to prevent voting more than once
+            Poll.update({ _id: id},
+              {'$push': {'voted': username }}, (err, logPush) => {
+                if (err) throw err;
+              }
+            );
+            req.flash('success_msg', 'You have successfully voted');
+          }
           res.redirect('/');
         }
       }
