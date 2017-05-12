@@ -25,8 +25,9 @@ block content
 							div.pollSubmitBtn
 								input(type='hidden' value=`${poll._id}` name='id')
 								button.btn.btn-primary.pollSubmitBtn(type='submit') Submit
-							div
-								a.btn.btn-primary.pollSubmitBtn#new(href='#' data-toggle='modal' data-target='#newModal') Add new option
+							if user
+								div
+									a.btn.btn-primary.pollSubmitBtn#new(href='#' data-toggle='modal' data-target='#newModal') Add new option
 							div
 								a.btn.btn-primary.pollSubmitBtn(href=`/poll/${poll._id}`) Visit Poll Page
 
