@@ -9,8 +9,40 @@ block content
 				span= error.msg
 
 	if poll
-		p= poll
-		p= votes
+		form(method='post', action='/vote')
+			.card
+				.card-header(role='tab' id=`heading${index}`)
+					h5.mb-0
+						h5.text-center= poll.question
+				.card-block.text-center
+					.btn-group.flex-wrap(data-toggle='buttons')
+						each answer, index in poll.answers
+							label.btn.btn-secondary(for=`answer0`) #{answer.answer}: #{answer.votes}
+								input(type='radio' name=`answer0` value=`${answer.answer}`)
+					div.pollSubmitBtn
+						input(type='hidden' value=`${poll._id}` name='id')
+						button.btn.btn-primary.pollSubmitBtn(type='submit') Submit
+					if user
+						div
+							a.btn.btn-primary(target='_blank' href=`https://twitter.com/intent/tweet?text=${poll.question} Vote here ${url}${poll._id}`) Share
+						div
+							a.btn.btn-primary.pollSubmitBtn#new(href='#' data-toggle='modal' data-target='#newModal') Add new option
+			// New Answer Modal
+			.modal.fade#newModal(tabindex='-1' role='dialog' aria-labelledby='modalLabel' aria-hidden='true')
+				.modal-dialog(role='document')
+					.modal-content
+						.modal-header
+							h5.modal-title#modalLabel Add new option
+							button.close(type='button' data-dismiss='modal' aria-label='Close')
+								span(aria-hidden='true') &times;
+						.modal-body
+							.form-group
+								label New answer
+								input.form-control.original(type='text' name='newAnswer' placeholder='C++')
+
+						.modal-footer
+							button.btn.btn-secondary(data-dismiss='modal') Close
+							button.btn.btn-primary(type='submit') Add answer
 		.text-center
 			canvas#chart
 			if owner

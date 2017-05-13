@@ -11,14 +11,13 @@ router.post('/vote', (req, res) => {
      req.socket.remoteAddress ||
      req.connection.socket.remoteAddress;
 
-  const newAnswer = req.body.newAnswer.length > 0 ? { answer: req.body.newAnswer, votes: 1 } : null;
-  // const choice = req.body[0];
+  const newAnswer = req.body.newAnswer !== undefined ? { answer: req.body.newAnswer, votes: 1 } : null;
   const choice = req.body[Object.keys(req.body)[0]];
 
   // If the length is 1 then that means they didn't select an answer
   if (Object.keys(req.body).length == 1) {
     req.flash('error_msg', 'You didn\'t select an option');
-    res.redirect('/');
+    res.redirect(`/poll/${id}`);
   } else {
     // Use a username if logged in otherwise use an ip to prevent voting twice on the same poll
     const username = name !== null ? name : ip;
@@ -40,43 +39,57 @@ router.post('/vote', (req, res) => {
     Poll.find({ _id: id }, (err, poll) => {
       if (err) res.send(err);
 
+      if (poll[0].voted.includes(username)) {
+        req.flash('error_msg', 'You have already voted on this');
+        res.redirect(`/poll/${id}`);
+        return;
+      }
+
+      // If a user is adding a new answer
       if (!poll[0].voted.includes(username)) {
-        if (name !== null && newAnswer !== null) {
+        if (name !== null && newAnswer.answer.length > 0) {
+          console.log("Here we are");
           for (var i in poll[0].answers) {
             if (newAnswer.answer === poll[0].answers[i].answer) {
               console.log("Found a dupe");
               req.flash('error_msg', 'This answer already exists');
-              res.redirect('/');
+              res.redirect(`/poll/${id}`);
               return;
             }
           }
+
           req.flash('success_msg', 'You have successfully voted');
           Poll.update({ _id: id},
             {'$push': {'answers': newAnswer }}, (err, logPush) => {
               if (err) throw err;
+              console.log("VOTING ONCE!!")
             }
           );
 
           Poll.update({ _id: id},
             {'$push': {'voted': username }}, (err, logPush) => {
               if (err) throw err;
+              console.log("WHAT THE PROBLEM IS!!")
             }
           );
         }
       }
 
-      if (newAnswer === null) {
-        for (var i in poll[0].answers) {
+      // If a user is just voting using existing answers
+      if (newAnswer.answer.length < 1) {
+        console.log(newAnswer);
+        for (var i = 0; i < poll[0].answers.length; i++) {
           if (choice === poll[0].answers[i].answer) {
             const changeID = poll[0].answers[i]._id;
-
             if (poll[0].voted.includes(username)) {
               req.flash('error_msg', 'You have already voted on this');
             } else {
 
+              // Poll ID -> Answer ID -> Use dot notation to access votes
               Poll.update({ _id: id, 'answers._id': changeID },
                 {'$inc': {'answers.$.votes': 1 }}, (err, logInc) => {
                   if (err) throw err;
+                  console.log("VOTING AGAIN")
                 }
               );
 
@@ -84,6 +97,7 @@ router.post('/vote', (req, res) => {
               Poll.update({ _id: id},
                 {'$push': {'voted': username }}, (err, logPush) => {
                   if (err) throw err;
+                  console.log("HOT DAMN");
                 }
               );
               req.flash('success_msg', 'You have successfully voted');
@@ -91,7 +105,7 @@ router.post('/vote', (req, res) => {
           }
         }
       }
-      res.redirect('/');
+      res.redirect(`/poll/${id}`);
     });
   }
 });

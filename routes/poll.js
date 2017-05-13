@@ -19,14 +19,14 @@ router.get('/poll/:url(*)', (req, res) => {
 
       if (req.user) {
         if (poll.owner === req.user.username) {
-          res.render('poll', { poll: poll, owner: true, votes: votes });
+          res.render('poll', { poll: poll, owner: true, votes: votes, url: `${req.protocol}://${req.get('host')}/poll/` });
         }
         else {
-          res.render('poll', { poll: poll, owner: false, votes: votes });
+          res.render('poll', { poll: poll, owner: false, votes: votes, url: `${req.protocol}://${req.get('host')}/poll/` });
         }
       }
       else {
-        res.render('poll', { poll: poll, owner: false, votes: votes });
+        res.render('poll', { poll: poll, owner: false, votes: votes, url: `${req.protocol}://${req.get('host')}/poll/` });
       }
     }
     else {

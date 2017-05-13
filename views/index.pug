@@ -27,6 +27,8 @@ block content
 								button.btn.btn-primary.pollSubmitBtn(type='submit') Submit
 							if user
 								div
+									a.btn.btn-primary(target='_blank' href=`https://twitter.com/intent/tweet?text=${poll.question} Vote here ${url}${poll._id}`) Share
+								div
 									a.btn.btn-primary.pollSubmitBtn#new(href='#' data-toggle='modal' data-target='#newModal') Add new option
 							div
 								a.btn.btn-primary.pollSubmitBtn(href=`/poll/${poll._id}`) Visit Poll Page

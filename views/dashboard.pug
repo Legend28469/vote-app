@@ -19,6 +19,9 @@ block content
 							label.btn.btn-secondary(for=`answer${index}`) #{answer.answer}
 								input(type='radio' name=`answer${index}` value=`${answer.answer}`)
 					.text-center
+						div
+							a.btn.btn-primary(target='_blank' href=`https://twitter.com/intent/tweet?text=${poll.question} Vote here ${url}${poll._id}`) Share
 						form(action='/poll/deletePoll' method='post' id='deletePoll')
 							input(type='hidden' value=`${poll._id}` name='id')
-							button.btn.btn-danger(type='submit') Delete this poll
+							div
+								button.btn.btn-danger(type='submit' style='margin-top: 5px;') Delete this poll

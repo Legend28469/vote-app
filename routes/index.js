@@ -6,7 +6,7 @@ const Poll = require('../models/poll');
 router.get('/', (req, res) => {
   Poll.find({}, (err, polls) => {
     if (err) res.send(err);
-    res.render('index', { polls: polls.reverse(), user: req.user });
+    res.render('index', { polls: polls.reverse(), user: req.user, url: `${req.protocol}://${req.get('host')}/poll/` });
   });
 });
 
